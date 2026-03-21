@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Android Programming — Complete Exam Guide</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=Inter:wght@400;500&display=swap');
+
+:root {
+  --bg: #0f0f11;
+  --surface: #16161a;
+  --surface2: #1e1e24;
+  --border: #2a2a35;
+  --border2: #3a3a48;
+  --text: #e8e8f0;
+  --muted: #8888a0;
+  --accent: #7c6af7;
+  --accent2: #a594fc;
+  --green: #4ade9a;
+  --amber: #f5a623;
+  --red: #f06070;
+  --blue: #5ab4f0;
+  --tag-bg: #1e1e30;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #13131a 0%, #1a1428 50%, #13131a 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 36px 24px 28px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.header h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+.header h1 span { color: var(--accent2); }
+.header-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.stat-pill {
+  background: var(--tag-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--muted);
+}
+.stat-pill b { color: var(--accent2); }
+
+/* ── UNIT TABS ── */
+.unit-nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  max-width: 100%;
+}
+.unit-nav::-webkit-scrollbar { display: none; }
+.unit-btn {
+  padding: 12px 18px;
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+.unit-btn:hover { color: var(--text); }
+.unit-btn.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+
+/* ── MARK FILTER ── */
+.mark-filter {
+  padding: 14px 24px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.mark-filter-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'IBM Plex Mono', monospace;
+  margin-right: 4px;
+}
+.mf-btn {
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  transition: all 0.2s;
+}
+.mf-btn:hover, .mf-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ── MAIN CONTENT ── */
+.main { max-width: 1000px; margin: 0 auto; padding: 20px 24px 60px; }
+
+.unit-section { display: none; }
+.unit-section.active { display: block; }
+
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin: 28px 0 12px;
+  padding-left: 2px;
+  border-left: 3px solid var(--accent);
+  padding-left: 10px;
+}
+
+/* ── Q CARD ── */
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.q-card:hover { border-color: var(--border2); }
+.q-card.open { border-color: var(--accent); }
+
+.q-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.q-text {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.5;
+}
+.tags { display: flex; gap: 6px; align-items: center; flex-shrink: 0; flex-wrap: wrap; }
+
+.mark-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+}
+.m2 { color: var(--green); border-color: #4ade9a40; background: #4ade9a10; }
+.m5 { color: var(--accent2); border-color: #a594fc40; background: #a594fc10; }
+.m10 { color: var(--amber); border-color: #f5a62340; background: #f5a62310; }
+
+.freq-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #ffffff08;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+.freq-5 { background: #7c6af720; color: var(--accent2); border-color: #7c6af740; }
+
+.chev {
+  font-size: 10px;
+  color: var(--muted);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.q-card.open .chev { transform: rotate(180deg); color: var(--accent2); }
+
+/* ── ANSWER BODY ── */
+.q-body {
+  display: none;
+  padding: 16px 18px 18px;
+  border-top: 1px solid var(--border);
+  background: var(--surface2);
+}
+.q-card.open .q-body { display: block; }
+
+.year-row { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.yr {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #ffffff06;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.ans {
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: #c8c8d8;
+}
+.ans b { font-weight: 500; color: var(--text); }
+
+.pt {
+  padding: 5px 0 5px 14px;
+  border-left: 2px solid var(--accent);
+  margin: 5px 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #b8b8cc;
+}
+.pt b { color: var(--text); }
+
+.code {
+  background: #0d0d10;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  line-height: 1.65;
+  margin: 10px 0;
+  overflow-x: auto;
+  white-space: pre;
+  color: #b8d8f8;
+}
+
+.tbl { overflow-x: auto; margin: 10px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+th {
+  background: #1e1e28;
+  font-family: 'Syne', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding: 8px 10px;
+  text-align: left;
+  border: 1px solid var(--border);
+}
+td { padding: 7px 10px; border: 1px solid var(--border); color: #b8b8cc; vertical-align: top; line-height: 1.5; }
+tr:nth-child(even) td { background: #ffffff03; }
+
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+/* ── SEARCH ── */
+.search-wrap {
+  padding: 14px 24px;
+  background: var(--bg);
+}
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 9px 14px 9px 36px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238888a0' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+}
+.search-input:focus { border-color: var(--accent); }
+.search-input::placeholder { color: var(--muted); }
+
+/* hide/show for filters */
+.q-card.hidden { display: none; }
+
+/* ── SCROLL TOP ── */
+.scroll-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 200;
+}
+.scroll-top.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>Android Programming <span>Exam Guide</span></h1>
+      <div class="header-sub">BCA 6B 11 · Created by COMBINE STUDY TEAM BCA MESKVM · All Units · 2021–2025</div>
+    </div>
+    <div class="stats">
+      <div class="stat-pill">Units <b>I–V</b></div>
+      <div class="stat-pill"><b>5</b> years of papers</div>
+      <div class="stat-pill"><b>40+</b> answers</div>
+    </div>
+  </div>
+</div>
+
+<div class="unit-nav">
+  <button class="unit-btn active" onclick="switchUnit('all', this)">All Units</button>
+  <button class="unit-btn" onclick="switchUnit('u1', this)">Unit I — Platform & Architecture</button>
+  <button class="unit-btn" onclick="switchUnit('u2', this)">Unit II — Resources, Intents & Content Providers</button>
+  <button class="unit-btn" onclick="switchUnit('u3', this)">Unit III — User Interfaces</button>
+  <button class="unit-btn" onclick="switchUnit('u4', this)">Unit IV — Menus, Fragments & Dialogs</button>
+  <button class="unit-btn" onclick="switchUnit('u5', this)">Unit V — Persisting Data & SQLite</button>
+</div>
+
+<div class="search-wrap">
+  <input class="search-input" type="text" id="searchBox" placeholder="Search any topic, keyword or concept…" oninput="doSearch(this.value)">
+</div>
+
+<div class="mark-filter">
+  <span class="mark-filter-label">Filter by marks:</span>
+  <button class="mf-btn active" onclick="filterMark('all', this)">All</button>
+  <button class="mf-btn" onclick="filterMark('m2', this)">2–3 marks</button>
+  <button class="mf-btn" onclick="filterMark('m5', this)">5 marks</button>
+  <button class="mf-btn" onclick="filterMark('m10', this)">10–11 marks</button>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════════════════════
+     UNIT I
+═══════════════════════════════════════════════════════ -->
+<div class="unit-section active" id="u1">
+
+<div class="section-label">Unit I — Platform & Architecture · Short Answers (2–3 marks)</div>
+
+<div class="q-card" data-unit="u1" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is Android? Define Android.</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span></div>
+    <div class="ans">
+      <b>Android</b> is a mobile operating system based on a modified version of the <b>Linux kernel</b> and other open-source software.<br><br>
+      <div class="pt">Designed for touchscreen mobile devices — smartphones and tablets</div>
+      <div class="pt">Developed by the <b>Open Handset Alliance (OHA)</b> led by Google</div>
+      <div class="pt"><b>Open-source</b> — based on Apache License 2.0</div>
+      <div class="pt">Uses <b>SQLite</b> for structured data storage</div>
+      <div class="pt">Apps run on <b>DVM/ART</b> virtual machine</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u1" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What does ADT stand for? What is ADT?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      <b>ADT</b> stands for <b>Android Development Tools</b>. It is a plugin for the Eclipse IDE.<br><br>
+      <div class="pt">Extends Eclipse to quickly set up Android projects</div>
+      <div class="pt">Allows creating application UI</div>
+      <div class="pt">Used to debug applications</div>
+      <div class="pt">Exports signed or unsigned APK files</div>
+      Installed via Eclipse → Help → Install New Software → ADT Plugin URL.
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u1" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is DVM (Dalvik Virtual Machine)?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      <b>DVM (Dalvik Virtual Machine)</b> is a specialized virtual machine optimized for Android.<br><br>
+      <div class="pt"><b>Register-based</b> architecture (unlike JVM which is stack-based)</div>
+      <div class="pt">Executes <b>.dex</b> (Dalvik Executable) files instead of .class files</div>
+      <div class="pt">Optimized for <b>low memory and battery-constrained</b> mobile environments</div>
+      <div class="pt">Uses <b>JIT (Just-In-Time)</b> compilation</div>
+      <div class="pt">Used in Android versions <b>prior to 5.0 (Lollipop)</b> — replaced by ART</div>
+      <div class="divider"></div>
+      <b>DVM vs ART:</b>
+      <div class="tbl"><table>
+        <tr><th>DVM</th><th>ART</th></tr>
+        <tr><td>JIT compilation</td><td>AOT (Ahead-Of-Time) compilation</td></tr>
+        <tr><td>Android &lt; 5.0</td><td>Android 5.0+</td></tr>
+        <tr><td>Slower startup</td><td>Faster runtime performance</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u1" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is OHA (Open Handset Alliance)?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      <b>OHA</b> is a consortium of <b>84 technology firms</b> founded on <b>November 5, 2007</b>, led by Google.<br><br>
+      <div class="pt">Members: Google, HTC, Sony, Dell, Intel, Motorola, Samsung, LG, Qualcomm, Nvidia, etc.</div>
+      <div class="pt">Goal: Develop <b>open standards for mobile devices</b></div>
+      <div class="pt">Purpose: Accelerate innovation and offer a richer, less expensive mobile experience</div>
+      <div class="pt">OHA created and maintains the <b>Android operating system</b></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u1" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is AVD and Emulator?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      <b>AVD (Android Virtual Device)</b> is a device configuration that represents a specific Android device running on the Android Emulator.<br><br>
+      <b>AVD Components:</b>
+      <div class="pt"><b>Hardware Profile</b> — defines camera, memory, screen resolution, sensors</div>
+      <div class="pt"><b>System Image</b> — the Android OS version (API level)</div>
+      <div class="pt"><b>Storage Area</b> — simulates user data and SD card</div>
+      <div class="pt"><b>Skin</b> — visual appearance of the emulator frame</div>
+      <br>
+      The <b>Emulator</b> is a software tool that mimics an Android device on the computer, allowing developers to test apps without a physical device. Managed via <b>AVD Manager</b>.
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u1" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is AndroidManifest.xml and its purpose?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      <b>AndroidManifest.xml</b> is the <b>root configuration file</b> of every Android application — the control file that describes the nature of the app to the system.<br><br>
+      <b>Key Declarations:</b>
+      <div class="pt">Package name (unique app ID)</div>
+      <div class="pt">All components — Activities, Services, Broadcast Receivers, Content Providers</div>
+      <div class="pt">Permissions required (Internet, Camera, Storage)</div>
+      <div class="pt">Minimum and target API levels</div>
+      <div class="pt">Hardware features required</div>
+      Without this file, the Android system <b>cannot run the application</b>.
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u1" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What are Android Java Packages?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">2×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2023</span></div>
+    <div class="ans">
+      Android SDK uses standard Java packages along with Android-specific packages:<br><br>
+      <div class="pt"><b>android.app</b> — Activity, Service, Fragment</div>
+      <div class="pt"><b>android.content</b> — ContentProvider, Intent, Context</div>
+      <div class="pt"><b>android.view</b> — View, ViewGroup, Menu</div>
+      <div class="pt"><b>android.widget</b> — Button, TextView, EditText, ListView, ImageView</div>
+      <div class="pt"><b>android.os</b> — Bundle, Handler, Looper</div>
+      <div class="pt"><b>android.database.sqlite</b> — SQLite database management</div>
+      <div class="pt"><b>android.graphics</b> — Bitmap, Canvas, Color, Paint</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Unit I — Medium Answers (5 marks)</div>
+
+<div class="q-card" data-unit="u1" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain the Structure of an Android Application</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      <b>Project Directory Structure:</b>
+      <div class="pt"><b>src/</b> — Java source files (e.g., MainActivity.java)</div>
+      <div class="pt"><b>gen/</b> — Auto-generated <b>R.java</b> (resource reference class — never edit manually)</div>
+      <div class="pt"><b>res/layout/</b> — XML files defining UI layouts (activity_main.xml)</div>
+      <div class="pt"><b>res/values/</b> — strings.xml, colors.xml, styles.xml, dimens.xml</div>
+      <div class="pt"><b>res/drawable/</b> — Bitmap images (PNG, JPG) and XML drawables</div>
+      <div class="pt"><b>res/mipmap/</b> — App launcher icons for various screen densities</div>
+      <div class="pt"><b>assets/</b> — Raw files accessed via AssetManager (fonts, game data)</div>
+      <div class="pt"><b>bin/</b> — Contains the compiled .apk file</div>
+      <div class="pt"><b>AndroidManifest.xml</b> — Declares all components, permissions, and API levels</div>
+      <br><b>Four Main Components (all declared in Manifest):</b>
+      <div class="pt"><b>Activity</b> — Single screen with user interface</div>
+      <div class="pt"><b>Service</b> — Background task without UI (e.g., music player)</div>
+      <div class="pt"><b>Broadcast Receiver</b> — Responds to system-wide events (battery low, SMS)</div>
+      <div class="pt"><b>Content Provider</b> — Shares structured data between applications</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u1" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain the Android Software Stack / Architecture layers</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2025</span></div>
+    <div class="ans">
+      Android architecture has <b>4 main layers</b> from bottom to top:<br><br>
+      <div class="pt"><b>Layer 1 — Linux Kernel:</b> Foundation. Handles hardware abstraction, security, memory management, process management, drivers (Display, Camera, WiFi, Audio)</div>
+      <div class="pt"><b>Layer 2 — Native Libraries + Android Runtime:</b> C/C++ libraries: WebKit, SQLite, FreeType, OpenGL ES, Media Framework, SSL. DVM/ART runs application code</div>
+      <div class="pt"><b>Layer 3 — Application Framework (Java API):</b> Activity Manager, Window Manager, Content Providers, View System, Notification Manager, Resource Manager. Developers interact with this layer</div>
+      <div class="pt"><b>Layer 4 — Applications (Top):</b> Native and third-party apps (Phone, Contacts, Browser, Email, Camera)</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Unit I — Essay (10–11 marks)</div>
+
+<div class="q-card" data-unit="u1" data-mark="m10">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain the Android Application Lifecycle in detail</div>
+    <div class="tags"><span class="mark-tag m10">10–11 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      The <b>Activity Lifecycle</b> determines the state of an Activity from creation to destruction. Android invokes callback methods as the state changes.<br><br>
+      <b>Four States:</b>
+      <div class="pt"><b>Active/Running</b> — Foreground, has user focus</div>
+      <div class="pt"><b>Paused</b> — Another activity in foreground but this is still visible; retains state</div>
+      <div class="pt"><b>Stopped</b> — Completely obscured; no longer visible; can be killed by system</div>
+      <div class="pt"><b>Destroyed</b> — Removed from memory</div>
+      <br>
+      <b>Lifecycle Callback Methods:</b>
+      <div class="tbl"><table>
+        <tr><th>Method</th><th>When Called</th><th>Use For</th></tr>
+        <tr><td>onCreate()</td><td>Activity first created</td><td>Initialize UI, setContentView(), bind data</td></tr>
+        <tr><td>onStart()</td><td>Becoming visible to user</td><td>Prepare UI for display</td></tr>
+        <tr><td>onResume()</td><td>Starts interacting with user</td><td>Start animations, sensors, camera</td></tr>
+        <tr><td>onPause()</td><td>About to resume another activity</td><td>Save unsaved data, pause animations</td></tr>
+        <tr><td>onStop()</td><td>Activity no longer visible</td><td>Heavy resource shutdown</td></tr>
+        <tr><td>onRestart()</td><td>After stop, starting again</td><td>Refresh data</td></tr>
+        <tr><td>onDestroy()</td><td>Before activity is destroyed</td><td>Final cleanup</td></tr>
+      </table></div>
+      <b>Lifecycle Flow:</b>
+      <div class="code">Start → onCreate() → onStart() → onResume() → RUNNING
+User leaves → onPause() → onStop() → STOPPED
+User returns → onRestart() → onStart() → onResume()
+App closed → onStop() → onDestroy() → DESTROYED</div>
+      <b>onSaveInstanceState(Bundle)</b> — Called before the activity is stopped to save temporary UI state (e.g., text in EditText) across configuration changes like screen rotation. The saved Bundle is passed back to <b>onCreate()</b> on restart.
+    </div>
+  </div>
+</div>
+
+</div><!-- /u1 -->
+
+<!-- ═══════════════════════════════════════════════════════
+     UNIT II
+═══════════════════════════════════════════════════════ -->
+<div class="unit-section" id="u2">
+
+<div class="section-label">Unit II — Short Answers (2–3 marks)</div>
+
+<div class="q-card" data-unit="u2" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is Intent in Android? (Explicit vs Implicit)</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      An <b>Intent</b> is a messaging object used to request an action from another app component.<br><br>
+      <div class="pt"><b>Explicit Intent</b> — Specifies exact component by class name. Used within your own app.<br><b>Example:</b> <code>new Intent(context, TargetActivity.class)</code></div>
+      <div class="pt"><b>Implicit Intent</b> — Declares a general action (e.g., "View a map") allowing any capable app to handle it</div>
+      <br><b>Core Uses:</b> Starting an Activity (<code>startActivity()</code>), starting a Service (<code>startService()</code>), delivering a Broadcast (<code>sendBroadcast()</code>).
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u2" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is a Pending Intent? Explain pending intent.</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      A <b>PendingIntent</b> is a token given to a foreign application (e.g., Notification Manager, AlarmManager) that allows it to execute a predefined piece of code <b>as if it were your application</b>.<br><br>
+      <b>Analogy:</b> Like signing a blank check and giving it to someone else to cash later.<br><br>
+      <div class="pt">Clicking a <b>Notification</b> in the status bar to open an Activity</div>
+      <div class="pt"><b>Widgets</b> launching the app when clicked</div>
+      <div class="pt"><b>AlarmManager</b> triggering an action at a set time</div>
+      <div class="code">PendingIntent.getActivity(Context, requestCode, Intent, flags);
+PendingIntent.getService(...);
+PendingIntent.getBroadcast(...);</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u2" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is a resource file in Android Studio?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      <b>Resources</b> are the additional files and static content that the code uses — bitmaps, layouts, strings, animations, etc.<br><br>
+      <div class="pt"><b>res/layout/</b> — XML UI layouts</div>
+      <div class="pt"><b>res/values/</b> — strings.xml, colors.xml, dimens.xml, styles.xml</div>
+      <div class="pt"><b>res/drawable/</b> — Images (PNG, JPG, GIF)</div>
+      <div class="pt"><b>res/menu/</b> — Menu XML definitions</div>
+      <div class="pt"><b>res/raw/</b> — Arbitrary raw files</div>
+      <div class="pt"><b>res/anim/</b> — Animation XML files</div>
+      In Java: <code>R.string.app_name</code> · In XML: <code>@string/app_name</code>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u2" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is the difference between ACTION_PICK and GET_CONTENT?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2025</span></div>
+    <div class="ans">
+      <div class="tbl"><table>
+        <tr><th>ACTION_PICK</th><th>ACTION_GET_CONTENT</th></tr>
+        <tr><td>Uses the URI of the data collection (e.g., MediaStore.Images)</td><td>More generic — asks for any file of a given MIME type</td></tr>
+        <tr><td>Picks one item from a specific collection</td><td>User can pick from any available source</td></tr>
+        <tr><td>Example: Pick a contact from Contacts app</td><td>Example: Get any image/* from the device</td></tr>
+      </table></div>
+      <div class="code">// ACTION_PICK
+Intent i = new Intent(Intent.ACTION_PICK,
+    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+// GET_CONTENT
+Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+i.setType("image/*");</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u2" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">How to get data from a Content Provider?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">2×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2023</span></div>
+    <div class="ans">
+      Data is retrieved from a Content Provider using <b>ContentResolver.query()</b>:<br><br>
+      <div class="code">Cursor cursor = getContentResolver().query(
+    ContentUri,    // The URI (content://...)
+    projection,    // Columns to return
+    selection,     // WHERE clause
+    selectionArgs, // WHERE arguments
+    sortOrder      // ORDER BY
+);</div>
+      <div class="pt">Use <code>?</code> placeholders in selection to prevent SQL injection</div>
+      <div class="pt">Result is a <b>Cursor</b> — iterate with <code>cursor.moveToNext()</code></div>
+      <div class="pt">Always call <code>cursor.close()</code> when done</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Unit II — Medium Answers (5 marks)</div>
+
+<div class="q-card" data-unit="u2" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain Intents in Android in detail with example</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      An <b>Intent</b> is an abstract description of an operation to be performed.<br><br>
+      <b>Intent Structure (6 components):</b>
+      <div class="pt"><b>Component Name</b> — specifies exact class (makes it Explicit)</div>
+      <div class="pt"><b>Action</b> — e.g., ACTION_VIEW, ACTION_SEND, ACTION_DIAL</div>
+      <div class="pt"><b>Data</b> — URI of data to operate on (e.g., tel:123, http://...)</div>
+      <div class="pt"><b>Category</b> — additional info (e.g., CATEGORY_LAUNCHER)</div>
+      <div class="pt"><b>Extras</b> — Key-value pairs (Bundle) for additional data</div>
+      <div class="pt"><b>Flags</b> — Metadata on how to launch the activity</div>
+      <br><b>Explicit Intent (within own app):</b>
+      <div class="code">Intent i = new Intent(this, SecondActivity.class);
+i.putExtra("username", "Noor");
+startActivity(i);</div>
+      <b>Implicit Intent (any capable app):</b>
+      <div class="code">Intent i = new Intent(Intent.ACTION_VIEW,
+    Uri.parse("http://www.google.com"));
+startActivity(i);</div>
+      Intent Resolution for implicit intents: Android compares the intent with <b>Intent Filters</b> in other apps' manifests, testing Action, Category, and Data type.
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u2" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain Pending Intent and its use</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      A <b>PendingIntent</b> wraps a regular Intent and grants a foreign application permission to fire it later, on your app's behalf.<br><br>
+      <b>Analogy:</b> Signing a blank check and giving it to someone else — they can use it when you're not around.<br><br>
+      <b>Use Cases:</b>
+      <div class="pt">Clicking a <b>Notification</b> opens an Activity</div>
+      <div class="pt"><b>App Widget</b> launching the app on click</div>
+      <div class="pt"><b>AlarmManager</b> triggering code at a specific time</div>
+      <br><b>Creation:</b>
+      <div class="code">// For starting an Activity
+Intent intent = new Intent(this, MainActivity.class);
+PendingIntent pi = PendingIntent.getActivity(
+    this,        // context
+    0,           // request code
+    intent,      // intent to fire
+    PendingIntent.FLAG_UPDATE_CURRENT
+);
+
+// For starting a Service
+PendingIntent.getService(context, 0, intent, flags);
+
+// For sending a Broadcast
+PendingIntent.getBroadcast(context, 0, intent, flags);</div>
+      Key difference from regular Intent: PendingIntent can be used <b>after your app is in the background or not running</b> at all.
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u2" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain various Resources in Android / Types of Resources</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2025</span></div>
+    <div class="ans">
+      Resources are external files and static content separated from the code, stored in the <b>res/</b> directory.<br><br>
+      <div class="pt"><b>String Resources</b> (strings.xml) — Text strings for the app. Usage: <code>getString(R.string.name)</code></div>
+      <div class="pt"><b>Layout Resources</b> (res/layout/) — XML files defining UI structure</div>
+      <div class="pt"><b>Color Resources</b> (colors.xml) — Color values in #RGB, #ARGB, #RRGGBB format</div>
+      <div class="pt"><b>Dimension Resources</b> (dimens.xml) — dp for layouts, sp for font sizes</div>
+      <div class="pt"><b>Drawable Resources</b> (res/drawable/) — PNG, JPG images and XML drawables</div>
+      <div class="pt"><b>String Arrays</b> (arrays.xml) — Arrays of strings (used in Spinners, etc.)</div>
+      <div class="pt"><b>Raw Resources</b> (res/raw/) — Arbitrary files (audio, text). Accessed via <code>R.raw.filename</code></div>
+      <div class="pt"><b>Menu Resources</b> (res/menu/) — Menu item definitions</div>
+      Reference in Java: <code>R.type.name</code> | Reference in XML: <code>@type/name</code>
+    </div>
+  </div>
+</div>
+
+</div><!-- /u2 -->
+
+<!-- ═══════════════════════════════════════════════════════
+     UNIT III
+═══════════════════════════════════════════════════════ -->
+<div class="unit-section" id="u3">
+
+<div class="section-label">Unit III — Short Answers (2–3 marks)</div>
+
+<div class="q-card" data-unit="u3" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is an Activity in Android?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      An <b>Activity</b> represents a <b>single screen with a user interface</b> — it is the entry point for interacting with the user.<br><br>
+      <div class="pt">A subclass of <code>android.app.Activity</code></div>
+      <div class="pt">Example: An email app has one Activity for inbox list, another for reading, another for composing</div>
+      <div class="pt">Has its own lifecycle (onCreate → onStart → onResume → onPause → onStop → onDestroy)</div>
+      <div class="pt">Declared in <b>AndroidManifest.xml</b></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u3" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What are different types of Layout Managers?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      <div class="pt"><b>LinearLayout</b> — Children in a single direction (vertical or horizontal)</div>
+      <div class="pt"><b>RelativeLayout</b> — Children positioned relative to each other or parent</div>
+      <div class="pt"><b>TableLayout</b> — Children in rows and columns (like HTML table)</div>
+      <div class="pt"><b>FrameLayout</b> — Holds single item; multiple children stack (overlap)</div>
+      <div class="pt"><b>GridLayout</b> — Rectangular grid; children can span rows/columns</div>
+      <div class="pt"><b>ConstraintLayout</b> — Modern flexible layout using constraint rules</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u3" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is GridLayout / GridView in Android?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      <b>GridView</b> (<code>android.widget.GridView</code>) — An AdapterView that displays items in a two-dimensional scrollable grid.<br><br>
+      <div class="pt"><code>android:numColumns</code> — Number of columns ("3" or "auto_fit")</div>
+      <div class="pt"><code>android:verticalSpacing</code> — Gap between rows</div>
+      <div class="pt"><code>android:horizontalSpacing</code> — Gap between columns</div>
+      <div class="pt">Uses an Adapter to populate items</div>
+      <br><b>GridLayout</b> (layout manager) — places children in a rectangular grid where children can <b>span multiple rows/columns</b> using <code>rowSpan</code> and <code>columnSpan</code>.
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u3" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is Spinner used for in Android?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      A <b>Spinner</b> is a drop-down list that allows users to select one value from a set — equivalent to HTML <code>&lt;select&gt;</code>.<br><br>
+      <div class="pt"><b>Closed state</b> — shows only the currently selected item</div>
+      <div class="pt"><b>Open state</b> — shows all items in a dropdown</div>
+      <div class="pt">Uses an <b>ArrayAdapter</b> to populate items</div>
+      <div class="pt">Event: <code>setOnItemSelectedListener()</code></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u3" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is relative layout? What is map view control?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">2×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      <b>RelativeLayout</b> — Enables positioning of child views relative to each other or to the parent. Eliminates deeply nested LinearLayouts.<br>
+      Key attributes: <code>layout_below, layout_toRightOf, alignParentTop, centerInParent</code><br><br>
+      <b>MapView</b> (<code>com.google.android.gms.maps.MapView</code>) — Displays a Google Map inside the application.<br>
+      <div class="pt">Requires a <b>Google Maps API Key</b></div>
+      <div class="pt">Requires <b>Internet Permission</b> and Google Play Services</div>
+      <div class="pt">Supports markers, map types (satellite, terrain), and user gestures</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u3" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is Shared Preferences in Android?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      <b>Shared Preferences</b> is a lightweight mechanism to store a small collection of <b>key-value pairs</b> as an XML file.<br><br>
+      <div class="pt">Stored at: <code>/data/data/&lt;package&gt;/shared_prefs/filename.xml</code></div>
+      <div class="pt">Supported types: Boolean, Float, Int, Long, String, String Set</div>
+      <div class="pt">Used for user settings — "Dark Mode", "Sound On", high scores</div>
+      <div class="pt">Data <b>survives app restarts</b></div>
+      Write: <code>editor.putString("key", "value"); editor.apply();</code><br>
+      Read: <code>pref.getString("key", "default");</code>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Unit III — Medium Answers (5 marks)</div>
+
+<div class="q-card" data-unit="u3" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain ListView / List adapter in Android</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2025</span></div>
+    <div class="ans">
+      A <b>ListView</b> is an AdapterView that displays a vertically scrollable list of items. It does not hold data directly — it uses an <b>Adapter</b> as a bridge to the data source.<br><br>
+      <b>Architecture:</b>
+      <div class="code">[ Data Source ] → [ Adapter ] → [ ListView (UI) ]
+(Array/DB)      (Bridge)       (Displays rows)</div>
+      <b>Implementation:</b>
+      <div class="code">// 1. Define in XML
+&lt;ListView android:id="@+id/myList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" /&gt;
+
+// 2. In Java
+ListView lv = findViewById(R.id.myList);
+String[] data = {"Item 1", "Item 2", "Item 3"};
+
+ArrayAdapter&lt;String&gt; adapter = new ArrayAdapter&lt;&gt;(
+    this,
+    android.R.layout.simple_list_item_1,
+    data
+);
+lv.setAdapter(adapter);
+
+// 3. Handle item click
+lv.setOnItemClickListener((parent, view, pos, id) -> {
+    String selected = data[pos];
+    Toast.makeText(this, selected, Toast.LENGTH_SHORT).show();
+});</div>
+      <b>Types of Adapters:</b>
+      <div class="pt"><b>ArrayAdapter</b> — for String arrays or ArrayLists</div>
+      <div class="pt"><b>CursorAdapter</b> — for SQLite/ContentProvider data</div>
+      <div class="pt"><b>BaseAdapter</b> — for custom implementations</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u3" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain with syntax about Spinner in Android</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      <b>Spinner</b> is a drop-down selection widget. It displays one item at a time and lets users choose from a list.<br><br>
+      <b>XML:</b>
+      <div class="code">&lt;Spinner
+    android:id="@+id/spinner1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" /&gt;</div>
+      <b>Java:</b>
+      <div class="code">Spinner spinner = findViewById(R.id.spinner1);
+String[] items = {"Red", "Green", "Blue"};
+
+ArrayAdapter&lt;String&gt; adapter = new ArrayAdapter&lt;&gt;(
+    this,
+    android.R.layout.simple_spinner_item, items);
+adapter.setDropDownViewResource(
+    android.R.layout.simple_spinner_dropdown_item);
+spinner.setAdapter(adapter);
+
+spinner.setOnItemSelectedListener(
+  new AdapterView.OnItemSelectedListener() {
+    public void onItemSelected(AdapterView&lt;?&gt; p,
+        View v, int pos, long id) {
+        String sel = items[pos];
+        Toast.makeText(MainActivity.this,
+            "Selected: " + sel, Toast.LENGTH_SHORT).show();
+    }
+    public void onNothingSelected(AdapterView&lt;?&gt; p) {}
+});</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u3" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Differentiate between Linear Layout and Table Layout</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      <div class="tbl"><table>
+        <tr><th>Feature</th><th>LinearLayout</th><th>TableLayout</th></tr>
+        <tr><td>Arrangement</td><td>Single row OR single column</td><td>Rows AND columns simultaneously</td></tr>
+        <tr><td>Direction control</td><td><code>android:orientation</code> (vertical/horizontal)</td><td>Always uses &lt;TableRow&gt; for rows</td></tr>
+        <tr><td>Structure</td><td>Direct child views</td><td>Each view inside &lt;TableRow&gt; is a cell</td></tr>
+        <tr><td>Column control</td><td>No built-in columns</td><td>stretchColumns, shrinkColumns, collapseColumns</td></tr>
+        <tr><td>Space distribution</td><td>layout_weight distributes proportionally</td><td>Auto-sizes based on content</td></tr>
+        <tr><td>Nesting</td><td>Often nested (performance cost)</td><td>More structured, less nesting needed</td></tr>
+        <tr><td>Best use</td><td>Simple forms, stacked views</td><td>Data entry grids, registration forms</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Unit III — Essay (10 marks)</div>
+
+<div class="q-card" data-unit="u3" data-mark="m10">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain the different types of Layouts in Android in detail</div>
+    <div class="tags"><span class="mark-tag m10">10 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      A <b>Layout Manager</b> defines the visual structure for a UI and handles positioning and sizing of child views.<br><br>
+      <b>1. LinearLayout</b>
+      <div class="pt">Arranges children in a <b>single direction</b> — vertical or horizontal</div>
+      <div class="pt">Key attribute: <code>android:orientation="vertical"</code> or <code>"horizontal"</code></div>
+      <div class="pt"><code>android:layout_weight</code> distributes remaining space proportionally</div>
+      <div class="code">&lt;LinearLayout android:orientation="vertical"&gt;
+    &lt;TextView android:text="Name" /&gt;
+    &lt;EditText android:hint="Enter name" /&gt;
+&lt;/LinearLayout&gt;</div>
+      <b>2. RelativeLayout</b>
+      <div class="pt">Children positioned <b>relative to each other or to the parent</b></div>
+      <div class="pt">Eliminates nested LinearLayouts → flatter, more efficient hierarchy</div>
+      <div class="pt">Key: <code>layout_below, layout_toRightOf, alignParentTop, centerInParent</code></div>
+      <b>3. TableLayout</b>
+      <div class="pt">Arranges children in <b>rows and columns</b> like an HTML table</div>
+      <div class="pt">Uses <code>&lt;TableRow&gt;</code> elements; each view inside is a cell</div>
+      <div class="pt"><code>stretchColumns, shrinkColumns, collapseColumns</code> control column behavior</div>
+      <b>4. FrameLayout</b>
+      <div class="pt">Designed to hold a <b>single item</b> on screen</div>
+      <div class="pt">Multiple children <b>stack (overlap)</b> — most recently added is on top</div>
+      <div class="pt">Use cases: overlays, loading spinners, Fragment containers</div>
+      <b>5. GridLayout</b>
+      <div class="pt">Places children in a <b>rectangular grid</b> with arbitrary rows and columns</div>
+      <div class="pt">Children can <b>span multiple rows/columns</b> (<code>rowSpan, columnSpan</code>)</div>
+      <div class="pt">Flatter hierarchy than TableLayout (no TableRow needed)</div>
+      <br>
+      <div class="tbl"><table>
+        <tr><th>Layout</th><th>Direction</th><th>Best Use Case</th></tr>
+        <tr><td>LinearLayout</td><td>Single row/column</td><td>Simple forms, stacked views</td></tr>
+        <tr><td>RelativeLayout</td><td>Relative positioning</td><td>Complex UIs without nesting</td></tr>
+        <tr><td>TableLayout</td><td>Rows & Columns</td><td>Data entry forms, tables</td></tr>
+        <tr><td>FrameLayout</td><td>Stacking (Z-order)</td><td>Overlays, Fragment containers</td></tr>
+        <tr><td>GridLayout</td><td>Grid (arbitrary)</td><td>Image galleries, calculators</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u3" data-mark="m10">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What are Android controls? Explain any five common controls</div>
+    <div class="tags"><span class="mark-tag m10">10 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span></div>
+    <div class="ans">
+      Android controls (widgets) are interactive UI components that extend <code>android.view.View</code>.<br><br>
+      <b>1. TextView</b> — Displays read-only text.
+      <div class="code">&lt;TextView android:text="Hello" android:textSize="18sp"
+    android:textColor="#000000" /&gt;</div>
+      <b>2. EditText</b> — Editable text input field.
+      <div class="pt">Key: <code>android:hint</code> (placeholder), <code>android:inputType</code> (keyboard type)</div>
+      <div class="code">EditText et = findViewById(R.id.editText);
+String input = et.getText().toString();</div>
+      <b>3. Button</b> — Performs an action when clicked.
+      <div class="code">Button btn = findViewById(R.id.button);
+btn.setOnClickListener(v -> {
+    // action here
+});</div>
+      <b>4. CheckBox</b> — Allows selecting one or more options (true/false state).
+      <div class="pt"><code>isChecked()</code> — returns true if selected</div>
+      <div class="pt"><code>setOnCheckedChangeListener()</code> — listens for state change</div>
+      <b>5. RadioButton &amp; RadioGroup</b> — Allows selecting only ONE option from a set. RadioGroup enforces mutual exclusion.
+      <div class="code">&lt;RadioGroup android:id="@+id/rgGender"&gt;
+    &lt;RadioButton android:text="Male" /&gt;
+    &lt;RadioButton android:text="Female" /&gt;
+&lt;/RadioGroup&gt;</div>
+      <b>Other controls:</b> ImageView (displays images), Spinner (dropdown), DatePicker (date selection), TimePicker (time selection), ToggleButton (on/off switch).
+    </div>
+  </div>
+</div>
+
+</div><!-- /u3 -->
+
+<!-- ═══════════════════════════════════════════════════════
+     UNIT IV
+═══════════════════════════════════════════════════════ -->
+<div class="unit-section" id="u4">
+
+<div class="section-label">Unit IV — Short Answers (2–3 marks)</div>
+
+<div class="q-card" data-unit="u4" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is a Fragment? What is fragment transaction?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      A <b>Fragment</b> represents a behaviour or a portion of user interface in an Activity — often called a "sub-activity".<br><br>
+      <div class="pt">Has its own lifecycle and receives its own input events</div>
+      <div class="pt">Can be added or removed while the activity is running</div>
+      <div class="pt">Must always be <b>hosted by an Activity</b></div>
+      <div class="pt">Can be reused across multiple activities for a modular UI</div>
+      <br>
+      A <b>Fragment Transaction</b> is a set of operations (add, remove, replace) committed to the FragmentManager atomically.
+      <div class="code">FragmentTransaction ft = getSupportFragmentManager()
+                            .beginTransaction();
+ft.replace(R.id.container, new MyFragment());
+ft.addToBackStack(null);
+ft.commit();</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u4" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Name the types of menus in Android</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      Android provides <b>three main types of menus</b>:<br><br>
+      <div class="pt"><b>Options Menu</b> — Primary menu in the Action Bar; used for global actions like Search, Settings</div>
+      <div class="pt"><b>Context Menu</b> — Floating menu on <b>long-pressing</b> a View (like desktop right-click); for actions on a specific item</div>
+      <div class="pt"><b>Popup Menu</b> — Modal menu anchored to a specific View; used for overflow actions</div>
+      <br>Additionally: <b>Sub Menu</b> — menu nested inside a menu item (max one level deep).
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u4" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">How does Toast work in Android?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      A <b>Toast</b> is a small popup that provides brief, simple feedback to the user.<br><br>
+      <div class="pt">Fills only the space required for the message</div>
+      <div class="pt">The current activity remains <b>visible and interactive</b></div>
+      <div class="pt">Automatically <b>disappears after a timeout</b> (LENGTH_SHORT ≈ 2s, LENGTH_LONG ≈ 3.5s)</div>
+      <div class="pt">Cannot be clicked or interacted with</div>
+      <div class="code">Toast.makeText(context, "Hello!", Toast.LENGTH_SHORT).show();</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Unit IV — Medium Answers (5 marks)</div>
+
+<div class="q-card" data-unit="u4" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain the Fragment Lifecycle in detail</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      A Fragment's lifecycle is tied to its host Activity's lifecycle but has <b>4 additional callbacks</b>.<br><br>
+      <div class="tbl"><table>
+        <tr><th>Method</th><th>When Called</th><th>What to Do</th></tr>
+        <tr><td>onAttach()</td><td>Fragment associated with Activity</td><td>Get reference to host Activity</td></tr>
+        <tr><td>onCreate()</td><td>Fragment being created</td><td>Initialize non-UI components</td></tr>
+        <tr><td><b>onCreateView()</b></td><td>Create the UI (critical)</td><td>Inflate and return layout XML</td></tr>
+        <tr><td>onActivityCreated()</td><td>Activity's onCreate() returned</td><td>Final UI setup</td></tr>
+        <tr><td>onStart()</td><td>Fragment becomes visible</td><td>Start visible-only behaviors</td></tr>
+        <tr><td>onResume()</td><td>Fragment is interactive</td><td>Start animations, sensors</td></tr>
+        <tr><td>onPause()</td><td>User leaving fragment</td><td>Save uncommitted changes</td></tr>
+        <tr><td>onStop()</td><td>No longer visible</td><td>Stop heavy operations</td></tr>
+        <tr><td>onDestroyView()</td><td>View hierarchy destroyed</td><td>Clean up View resources</td></tr>
+        <tr><td>onDestroy()</td><td>Fragment being destroyed</td><td>Final cleanup</td></tr>
+        <tr><td>onDetach()</td><td>Disassociated from Activity</td><td>Release Activity reference</td></tr>
+      </table></div>
+      <b>The most important method — onCreateView():</b>
+      <div class="code">@Override
+public View onCreateView(LayoutInflater inflater,
+    ViewGroup container, Bundle savedInstanceState) {
+    return inflater.inflate(
+        R.layout.fragment_example, container, false);
+}</div>
+      Fragments have 4 extra methods vs Activity: <b>onAttach, onCreateView, onDestroyView, onDetach</b>.
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u4" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Write code to demonstrate a Fragment Transaction</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      A <b>FragmentTransaction</b> is an atomic set of operations on fragments.<br><br>
+      <b>Transaction Methods:</b>
+      <div class="pt"><b>add()</b> — Adds fragment on top; existing fragments remain</div>
+      <div class="pt"><b>replace()</b> — Removes existing, adds new one</div>
+      <div class="pt"><b>remove()</b> — Removes a fragment</div>
+      <div class="pt"><b>hide() / show()</b> — Toggles visibility without destroying</div>
+      <div class="pt"><b>addToBackStack()</b> — Allows Back button to reverse the transaction</div>
+      <div class="pt"><b>commit()</b> — Schedules the transaction</div>
+      <br><b>Complete Code:</b>
+      <div class="code">// Layout XML — container FrameLayout:
+// &lt;FrameLayout android:id="@+id/fragment_container" /&gt;
+
+// Java:
+FragmentManager fm = getSupportFragmentManager();
+FragmentTransaction ft = fm.beginTransaction();
+
+MyFragment newFragment = new MyFragment();
+ft.replace(R.id.fragment_container, newFragment);
+ft.addToBackStack(null); // allows Back button navigation
+ft.commit();</div>
+      <b>add() vs replace():</b>
+      <div class="tbl"><table>
+        <tr><th>add()</th><th>replace()</th></tr>
+        <tr><td>Adds on top; previous fragments stay active</td><td>Removes all existing, adds new</td></tr>
+        <tr><td>Overlay use (e.g., tutorial popup)</td><td>Screen switching (e.g., Tab A to Tab B)</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u4" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is Android Menu? Explain how to create a Popup Menu</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      A <b>Menu</b> is a set of options presented to the user. Defined in XML in <code>res/menu/</code>.<br><br>
+      <b>Step 1 — Define menu XML (res/menu/popup_menu.xml):</b>
+      <div class="code">&lt;menu xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+    &lt;item android:id="@+id/opt_edit"  android:title="Edit" /&gt;
+    &lt;item android:id="@+id/opt_delete" android:title="Delete" /&gt;
+    &lt;item android:id="@+id/opt_share"  android:title="Share" /&gt;
+&lt;/menu&gt;</div>
+      <b>Step 2 — Show Popup Menu from a View:</b>
+      <div class="code">public void showPopup(View anchorView) {
+    PopupMenu popup = new PopupMenu(this, anchorView);
+    popup.inflate(R.menu.popup_menu);
+    popup.setOnMenuItemClickListener(item -> {
+        switch (item.getItemId()) {
+            case R.id.opt_edit:   editItem();   return true;
+            case R.id.opt_delete: deleteItem(); return true;
+        }
+        return false;
+    });
+    popup.show();
+}</div>
+      <b>Popup vs Context Menu:</b>
+      <div class="pt"><b>Popup Menu</b> — anchored to a View; for overflow/related actions</div>
+      <div class="pt"><b>Context Menu</b> — triggered by long-press; for actions on selected content</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u4" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain Android Toast in detail with example</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2025</span></div>
+    <div class="ans">
+      A <b>Toast</b> is a non-interactive popup providing brief feedback about an operation.<br><br>
+      <b>Characteristics:</b>
+      <div class="pt">Fills only the space required for the message</div>
+      <div class="pt">Current activity remains visible and interactive</div>
+      <div class="pt">Automatically disappears after timeout</div>
+      <div class="pt">Cannot receive focus or be clicked</div>
+      <div class="pt">Appears at the bottom of the screen by default</div>
+      <br><b>Basic Usage:</b>
+      <div class="code">Toast.makeText(
+    getApplicationContext(),
+    "File saved successfully!",
+    Toast.LENGTH_SHORT
+).show();</div>
+      <b>Custom Toast:</b>
+      <div class="code">LayoutInflater inflater = getLayoutInflater();
+View layout = inflater.inflate(R.layout.custom_toast, null);
+
+TextView text = layout.findViewById(R.id.toast_text);
+text.setText("Custom Toast!");
+
+Toast toast = new Toast(getApplicationContext());
+toast.setDuration(Toast.LENGTH_LONG);
+toast.setView(layout);
+toast.show();</div>
+      Use <b>AlertDialog</b> instead of Toast when the message requires user action or confirmation.
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u4" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">How to create a Search View in Android?</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag">2×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      A <b>SearchView</b> is a UI widget embedded in the Action Bar for entering search queries.<br><br>
+      <b>Step 1 — Add to menu XML:</b>
+      <div class="code">&lt;item android:id="@+id/action_search"
+      android:title="Search"
+      android:icon="@drawable/ic_search"
+      app:showAsAction="collapseActionView|ifRoom"
+      app:actionViewClass=
+        "androidx.appcompat.widget.SearchView" /&gt;</div>
+      <b>Step 2 — Handle in Activity:</b>
+      <div class="code">@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main_menu, menu);
+    MenuItem searchItem = menu.findItem(R.id.action_search);
+    SearchView sv = (SearchView) searchItem.getActionView();
+
+    sv.setOnQueryTextListener(
+        new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            performSearch(query); // on Search button press
+            return true;
+        }
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            filterResults(newText); // on every keystroke
+            return true;
+        }
+    });
+    return true;
+}</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Unit IV — Essay (10 marks)</div>
+
+<div class="q-card" data-unit="u4" data-mark="m10">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain the different Menus in Android in detail</div>
+    <div class="tags"><span class="mark-tag m10">10 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      Android provides menus as a common UI component. Menus are defined in XML (<code>res/menu/</code>) and inflated in Java.<br><br>
+      <b>1. Options Menu (Primary Menu)</b>
+      <div class="pt">Used for <b>global actions</b> — Search, Settings, Compose</div>
+      <div class="pt">Displayed in the Action Bar as icons or overflow (⋮) button</div>
+      <div class="code">// res/menu/main_menu.xml
+&lt;menu xmlns:android="..."&gt;
+  &lt;item android:id="@+id/action_search"
+        android:title="Search"
+        app:showAsAction="ifRoom"/&gt;
+  &lt;item android:id="@+id/action_settings"
+        android:title="Settings"
+        app:showAsAction="never"/&gt;
+&lt;/menu&gt;
+
+public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main_menu, menu);
+    return true;
+}
+public boolean onOptionsItemSelected(MenuItem item) {
+    if(item.getItemId() == R.id.action_search) {
+        openSearch(); return true;
+    }
+    return super.onOptionsItemSelected(item);
+}</div>
+      <b>2. Context Menu (Floating Menu)</b>
+      <div class="pt">Appears on <b>long-press</b> — like a desktop right-click</div>
+      <div class="pt">Used for item-specific actions: Edit, Delete, Copy</div>
+      <div class="code">registerForContextMenu(myListView); // register view
+
+public void onCreateContextMenu(ContextMenu menu, View v, ...) {
+    menu.setHeaderTitle("Select Action");
+    getMenuInflater().inflate(R.menu.context_menu, menu);
+}
+public boolean onContextItemSelected(MenuItem item) {
+    if(item.getItemId() == R.id.delete) { deleteItem(); return true; }
+    return super.onContextItemSelected(item);
+}</div>
+      <b>3. Popup Menu</b>
+      <div class="pt">A modal menu <b>anchored to a specific View</b></div>
+      <div class="pt">Appears below (or above) the anchor view</div>
+      <div class="code">public void showPopup(View v) {
+    PopupMenu popup = new PopupMenu(this, v);
+    popup.inflate(R.menu.actions);
+    popup.setOnMenuItemClickListener(item -> {
+        // handle
+        return true;
+    });
+    popup.show();
+}</div>
+      <b>4. Sub Menus</b>
+      <div class="pt">Nested inside a menu item — maximum one level</div>
+      <div class="code">&lt;item android:title="Sort By"&gt;
+    &lt;menu&gt;
+        &lt;item android:title="Date"/&gt;
+        &lt;item android:title="Name"/&gt;
+    &lt;/menu&gt;
+&lt;/item&gt;</div>
+      <b>5. Menu Groups</b>
+      <div class="code">&lt;group android:checkableBehavior="single"&gt;
+    &lt;item android:title="Refresh"/&gt;
+    &lt;item android:title="Stop"/&gt;
+&lt;/group&gt;
+menu.setGroupVisible(R.id.myGroup, false); // hide at runtime</div>
+      <b>6. Dynamic Menus (onPrepareOptionsMenu)</b>
+      <div class="code">public boolean onPrepareOptionsMenu(Menu menu) {
+    menu.findItem(R.id.login).setVisible(!isLoggedIn);
+    menu.findItem(R.id.logout).setVisible(isLoggedIn);
+    return super.onPrepareOptionsMenu(menu);
+}</div>
+      <div class="tbl"><table>
+        <tr><th>Menu Type</th><th>Trigger</th><th>Use Case</th></tr>
+        <tr><td>Options Menu</td><td>Action Bar / Menu button</td><td>Global app actions</td></tr>
+        <tr><td>Context Menu</td><td>Long-press on a View</td><td>Actions on specific item</td></tr>
+        <tr><td>Popup Menu</td><td>Click on a View</td><td>Overflow / related actions</td></tr>
+        <tr><td>Sub Menu</td><td>Nested in a menu item</td><td>Grouped sub-options</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /u4 -->
+
+<!-- ═══════════════════════════════════════════════════════
+     UNIT V
+═══════════════════════════════════════════════════════ -->
+<div class="unit-section" id="u5">
+
+<div class="section-label">Unit V — Short Answers (2–3 marks)</div>
+
+<div class="q-card" data-unit="u5" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is SQLite? Why use SQLite in Android?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag freq-5">5×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      <b>SQLite</b> is an open-source, lightweight relational database engine <b>embedded directly into Android</b>. No separate server process is needed.<br><br>
+      <div class="pt"><b>Inbuilt database</b> of Android — no additional installation</div>
+      <div class="pt">Stores <b>structured data</b> efficiently on the device</div>
+      <div class="pt">Supports standard SQL queries (SELECT, INSERT, UPDATE, DELETE)</div>
+      <div class="pt">Very <b>lightweight</b> — ideal for mobile devices</div>
+      <div class="pt">Data is <b>private to the app</b> — stored in <code>/data/data/&lt;package&gt;/databases/</code></div>
+      <b>SQLite Data Types:</b> NULL, INTEGER, REAL, TEXT, BLOB (no VARCHAR or BOOLEAN).
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u5" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is the base class of Android database? What is SQLiteOpenHelper?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      The base class for Android database management is <b>SQLiteOpenHelper</b>.<br><br>
+      <div class="pt">A helper class to manage <b>database creation and version management</b></div>
+      <div class="pt"><b>onCreate()</b> — Called when the database is created for the FIRST time</div>
+      <div class="pt"><b>onUpgrade()</b> — Called when DATABASE_VERSION number is increased; typically drops and recreates tables</div>
+      <div class="pt"><b>getWritableDatabase()</b> — Opens DB for read/write</div>
+      <div class="pt"><b>getReadableDatabase()</b> — Opens DB for reading only</div>
+      Other key class: <b>SQLiteDatabase</b> — provides insert(), update(), delete(), rawQuery() methods.
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u5" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is a Cursor in Android?</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      A <b>Cursor</b> provides random read-write access to the result set returned by a database query. It acts as a <b>pointer to the current row</b> in the result.<br><br>
+      <b>Key Methods:</b>
+      <div class="pt"><code>moveToFirst()</code> — Moves to the first row</div>
+      <div class="pt"><code>moveToNext()</code> — Moves to the next row</div>
+      <div class="pt"><code>getColumnIndex(String name)</code> — Returns index of a column</div>
+      <div class="pt"><code>getString(int index)</code> — Returns value as String</div>
+      <div class="pt"><code>getInt(int index)</code> — Returns value as Integer</div>
+      <div class="pt"><code>close()</code> — <b>Must call</b> to release resources</div>
+      <div class="code">while (cursor.moveToNext()) {
+    String name = cursor.getString(1);
+    int marks  = cursor.getInt(2);
+}</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u5" data-mark="m2">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">What is ContentResolver and CursorLoader? (Differentiate)</div>
+    <div class="tags"><span class="mark-tag m2">2–3 marks</span><span class="freq-tag">2×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2024</span><span class="yr">2025</span></div>
+    <div class="ans">
+      <div class="tbl"><table>
+        <tr><th>ContentResolver</th><th>CursorLoader</th></tr>
+        <tr><td>Client-side interface to access ContentProvider data</td><td>Runs ContentProvider queries asynchronously in the background</td></tr>
+        <tr><td>Runs on the main (UI) thread — can block if slow</td><td>Prevents UI thread from blocking</td></tr>
+        <tr><td>Used for direct, simple queries</td><td>Used in conjunction with LoaderManager</td></tr>
+        <tr><td><code>getContentResolver().query(uri,...)</code></td><td>Returns a Cursor via Loader callbacks</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Unit V — Medium Answers (5 marks)</div>
+
+<div class="q-card" data-unit="u5" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">How to save and load User Preferences (SharedPreferences)?</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      <b>Shared Preferences</b> stores key-value pairs as XML in the app's private directory.<br><br>
+      <b>Step 1 — Get the SharedPreferences object:</b>
+      <div class="code">SharedPreferences pref = getSharedPreferences(
+    "MyPrefs", Context.MODE_PRIVATE);</div>
+      <b>Step 2 — Save (write) data:</b>
+      <div class="code">SharedPreferences.Editor editor = pref.edit();
+editor.putString("username", "Noor");
+editor.putInt("high_score", 500);
+editor.putBoolean("sound_on", true);
+editor.apply(); // async — preferred</div>
+      <b>Step 3 — Load (read) data:</b>
+      <div class="code">String name  = pref.getString("username", "Unknown");
+int score    = pref.getInt("high_score", 0);
+boolean snd  = pref.getBoolean("sound_on", false);</div>
+      <b>apply() vs commit():</b>
+      <div class="tbl"><table>
+        <tr><th>apply()</th><th>commit()</th></tr>
+        <tr><td>Asynchronous — faster, void return</td><td>Synchronous — blocks thread, returns boolean</td></tr>
+        <tr><td>Preferred for most cases</td><td>Use when you need confirmation of success</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u5" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain Cursor in Android SQLite with example / Navigate using Cursor</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2025</span></div>
+    <div class="ans">
+      A <b>Cursor</b> is an interface providing access to the result set returned by a database query. It is a pointer that moves row by row.<br><br>
+      <b>Getting a Cursor:</b>
+      <div class="code">SQLiteDatabase db = helper.getReadableDatabase();
+Cursor cursor = db.rawQuery(
+    "SELECT * FROM students", null);</div>
+      <b>Navigating and reading data:</b>
+      <div class="code">if (cursor.getCount() == 0) {
+    // No data
+    return;
+}
+
+StringBuffer sb = new StringBuffer();
+while (cursor.moveToNext()) {
+    // Column indices: 0=ID, 1=NAME, 2=MARKS
+    String id    = cursor.getString(0);
+    String name  = cursor.getString(1);
+    int marks    = cursor.getInt(2);
+    sb.append("ID: "+id+" Name: "+name+" Marks: "+marks+"\n");
+}
+cursor.close(); // ALWAYS close cursor</div>
+      <b>Key Navigation Methods:</b>
+      <div class="pt"><code>moveToFirst()</code> — Go to first row; returns false if empty</div>
+      <div class="pt"><code>moveToNext()</code> — Go to next row; returns false when done</div>
+      <div class="pt"><code>moveToPrevious()</code> — Go to previous row</div>
+      <div class="pt"><code>moveToPosition(int)</code> — Jump to specific row</div>
+      <div class="pt"><code>getCount()</code> — Total number of rows in result</div>
+    </div>
+  </div>
+</div>
+
+<div class="q-card" data-unit="u5" data-mark="m5">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain Persist File / Read and Write String data in Android</div>
+    <div class="tags"><span class="mark-tag m5">5 marks</span><span class="freq-tag">3×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span></div>
+    <div class="ans">
+      Android provides <b>Internal Storage</b> for private file storage.<br><br>
+      <b>Writing to a file:</b>
+      <div class="code">String filename = "mydata.txt";
+String content  = "Hello World!";
+FileOutputStream fos = openFileOutput(filename,
+    Context.MODE_PRIVATE);
+fos.write(content.getBytes());
+fos.close();</div>
+      <b>Reading from a file:</b>
+      <div class="code">FileInputStream fis = openFileInput("mydata.txt");
+InputStreamReader isr = new InputStreamReader(fis);
+BufferedReader br = new BufferedReader(isr);
+StringBuilder sb = new StringBuilder();
+String line;
+while ((line = br.readLine()) != null) {
+    sb.append(line);
+}
+br.close();
+String content = sb.toString();</div>
+      <b>Internal vs External Storage:</b>
+      <div class="tbl"><table>
+        <tr><th>Internal Storage</th><th>External Storage</th></tr>
+        <tr><td>Private to the app</td><td>Public/shared (SD card)</td></tr>
+        <tr><td>Always available</td><td>May not always be mounted</td></tr>
+        <tr><td>Deleted on app uninstall</td><td>Survives app uninstall</td></tr>
+        <tr><td>No permission needed</td><td>Needs WRITE_EXTERNAL_STORAGE permission</td></tr>
+      </table></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Unit V — Essay (10 marks)</div>
+
+<div class="q-card" data-unit="u5" data-mark="m10">
+  <div class="q-head" onclick="toggle(this)">
+    <div class="q-text">Explain Database Manipulation using SQLite in Android</div>
+    <div class="tags"><span class="mark-tag m10">10 marks</span><span class="freq-tag freq-5">4×</span></div>
+    <span class="chev">▼</span>
+  </div>
+  <div class="q-body">
+    <div class="year-row"><span class="yr">2021</span><span class="yr">2022</span><span class="yr">2023</span><span class="yr">2024</span></div>
+    <div class="ans">
+      <b>SQLite</b> is Android's built-in relational database. The <code>android.database.sqlite</code> package provides the API.<br><br>
+      <b>Key Classes:</b>
+      <div class="pt"><b>SQLiteOpenHelper</b> — Manages DB creation and version upgrades</div>
+      <div class="pt"><b>SQLiteDatabase</b> — Performs insert, update, delete, query</div>
+      <div class="pt"><b>Cursor</b> — Iterates through result rows row by row</div>
+      <div class="pt"><b>ContentValues</b> — Map of column name → value for insert/update</div>
+      <br><b>Step 1: Create the Helper Class</b>
+      <div class="code">public class DBHelper extends SQLiteOpenHelper {
+    static final String DB_NAME = "College.db";
+    static final int DB_VERSION = 1;
+    static final String TABLE = "students";
+
+    public DBHelper(Context c) {
+        super(c, DB_NAME, null, DB_VERSION);
+    }
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE " + TABLE + " (" +
+            "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "NAME TEXT, MARKS INTEGER)");
+    }
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int o, int n) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+        onCreate(db);
+    }
+}</div>
+      <b>Step 2: INSERT data</b>
+      <div class="code">public boolean insertData(String name, int marks) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues cv = new ContentValues();
+    cv.put("NAME", name);
+    cv.put("MARKS", marks);
+    long result = db.insert(TABLE, null, cv);
+    return result != -1; // -1 = error
+}</div>
+      <b>Step 3: READ (SELECT) data</b>
+      <div class="code">public Cursor getAllData() {
+    SQLiteDatabase db = this.getReadableDatabase();
+    return db.rawQuery("SELECT * FROM " + TABLE, null);
+}</div>
+      <b>Step 4: UPDATE data</b>
+      <div class="code">public boolean updateData(String id, String name, int marks) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues cv = new ContentValues();
+    cv.put("NAME", name);
+    cv.put("MARKS", marks);
+    db.update(TABLE, cv, "ID=?", new String[]{id});
+    return true;
+}</div>
+      <b>Step 5: DELETE data</b>
+      <div class="code">public int deleteData(String id) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    return db.delete(TABLE, "ID=?", new String[]{id});
+}</div>
+      <b>SQLite Data Types:</b>
+      <div class="tbl"><table>
+        <tr><th>Type</th><th>Description</th><th>Java Equivalent</th></tr>
+        <tr><td>INTEGER</td><td>Signed integer (1–8 bytes)</td><td>int, long</td></tr>
+        <tr><td>TEXT</td><td>Text string (UTF-8)</td><td>String</td></tr>
+        <tr><td>REAL</td><td>Floating point number</td><td>float, double</td></tr>
+        <tr><td>BLOB</td><td>Binary data, stored as-is</td><td>byte[]</td></tr>
+        <tr><td>NULL</td><td>Null value</td><td>null</td></tr>
+      </table></div>
+      Note: SQLite has no BOOLEAN — use INTEGER (0 = false, 1 = true). No VARCHAR — use TEXT.
+    </div>
+  </div>
+</div>
+
+</div><!-- /u5 -->
+
+</div><!-- /main -->
+
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ── Unit switching
+let currentUnit = 'all';
+function switchUnit(unit, btn) {
+  currentUnit = unit;
+  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (unit === 'all') {
+    document.querySelectorAll('.unit-section').forEach(s => s.classList.add('active'));
+  } else {
+    document.querySelectorAll('.unit-section').forEach(s => {
+      s.classList.toggle('active', s.id === unit);
+    });
+  }
+  applyFilters();
+}
+
+// ── Mark filter
+let currentMark = 'all';
+function filterMark(mark, btn) {
+  currentMark = mark;
+  document.querySelectorAll('.mf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+// ── Search
+function doSearch(val) {
+  applyFilters(val.toLowerCase().trim());
+}
+
+function applyFilters(searchTerm) {
+  const term = searchTerm !== undefined ? searchTerm : document.getElementById('searchBox').value.toLowerCase().trim();
+  document.querySelectorAll('.q-card').forEach(card => {
+    const unitOk = currentUnit === 'all' || card.dataset.unit === currentUnit;
+    const markOk = currentMark === 'all' || card.dataset.mark === currentMark;
+    const text = card.textContent.toLowerCase();
+    const searchOk = !term || text.includes(term);
+    card.classList.toggle('hidden', !(unitOk && markOk && searchOk));
+  });
+}
+
+// ── Toggle card
+function toggle(head) {
+  const card = head.closest('.q-card');
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.q-card.open').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) {
+    card.classList.add('open');
+    setTimeout(() => card.scrollIntoView({behavior:'smooth', block:'nearest'}), 100);
+  }
+}
+
+// ── Scroll top
+window.addEventListener('scroll', () => {
+  document.getElementById('scrollTopBtn').classList.toggle('show', window.scrollY > 400);
+});
+
+// Show all sections on load
+document.querySelectorAll('.unit-section').forEach(s => s.classList.add('active'));
+</script>
+</body>
+</html>
